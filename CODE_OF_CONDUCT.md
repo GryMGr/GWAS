@@ -1,6 +1,6 @@
 # Contributor Covenant Code of Conduct
 
-## tl;dr
+## TL;DR
 Don't be a :shit:
 
 ## Our Pledge
