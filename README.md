@@ -1,5 +1,5 @@
 # Intro
-Because more and more researchers at NIPH will work with GWAS and other (-WAS) data, we should collect a framework and a potential R package structure for fast and reliable functionality for this kind of data. 
+Because more and more researchers at NIPH are working with GWAS and other (-omics) data, we should collect a framework and a potential R package like structure for fast and reliable functionality and analysis for this kind of data. 
 
 This repo is an effort to promote collaboration for analysis in GWAS, and for documentation. We can also use this as a platform to discuss problems or trobleshoot (using the ticket system in _issues_).  
 
@@ -10,7 +10,7 @@ This repos will with time contain a R-package like structure with _easy to use_ 
 Something similar to the [MoBa Wiki](https://mobawiki.fhi.no/mobawiki/index.php/Questionnaires). 
 
 # Maintainers
-* Christian Page (Christian (dot) Page (at) medisin.uio.no/fhi.no) 
+* Christian Page [Christian (dot) Page (at) medisin.uio.no/fhi.no](christian.page@medisin.uio.no;christian.page@fhi.no) 
 * **Please** e-mail me if you would like to participate in developing this repos. 
 * I would be :satisfied: for any contribution or suggestions for develupment
 * Feel free to use the issues or project tabs to add/request functionality 
