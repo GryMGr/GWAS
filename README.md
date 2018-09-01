@@ -10,7 +10,7 @@ This repos will with time contain a R-package like structure with _easy to use_ 
 Something similar to the [MoBa Wiki](https://mobawiki.fhi.no/mobawiki/index.php/Questionnaires). 
 
 # Maintainers
-* Christian Page [Christian (dot) Page (at) medisin.uio.no/fhi.no](christian.page@medisin.uio.no;christian.page@fhi.no) 
+* Christian Page [Christian (dot) Page (at) medisin.uio.no/fhi.no]
 * **Please** e-mail me if you would like to participate in developing this repos. 
 * I would be :satisfied: for any contribution or suggestions for develupment
 * Feel free to use the issues or project tabs to add/request functionality 
