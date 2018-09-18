@@ -15,7 +15,7 @@
 #' @export
 #' @import ggplot2
 #' @import irlba::irlba
-pca <- function(x, col = "Population", main = "", file = NULL, width = NULL, height = NULL, svd = FALSE){
+pca <- function(x, col = "Population", file = NULL, width = NULL, height = NULL, type = c("pca","svd","mds")){
         
 		if(nrow(x) > ncol(x)){
 			cat("Number of SNPs less than number of individuals, will transpose the data matrix\n")
@@ -23,12 +23,17 @@ pca <- function(x, col = "Population", main = "", file = NULL, width = NULL, hei
 		}
 
 		x       	<- na.omit(x)
-		if(svd){
+		if(type == "svd"){
 			L 		<- irlba(x, 2)
 			comp	<- L$u * (nrow(x) -1)
-		}else{
+		}else if(type == "pca"){
 			pca		<- prcomp(x)
 			comp	<- pca$x[,1:2]
+		}else if(type == "mds"){
+			mds		<- cmdscale(dist(x), eig=TRUE, k=2)
+			comp	<- fit$points[,1:2]
+		}else{
+			cat("type must be either; pca, sva or mds")
 		}
 	
 
@@ -37,7 +42,7 @@ pca <- function(x, col = "Population", main = "", file = NULL, width = NULL, hei
 	myColours <- color_pal(length(unique(col))); names(myColours) <- unique(col)
 
    gg <- ggplot(dat, aes(x = PC1, y = PC2)) +                        
-         labs(title = main)
+         labs(title = paste(type, "plot"))
                                                                                 
     if(length(unique(col)) > 1){                       
          gg <- gg +  geom_point(aes(colour = col)) +                       
