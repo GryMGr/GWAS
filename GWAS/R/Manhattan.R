@@ -16,19 +16,28 @@
 #' @return returns a ggplot2 object, piped to X11                               
 #' @export                                                                      
 #' @import ggplot2          
-manhattan.circular <- function(pVal, pos, chr, annot, filename = NULL, width = 10, height = 10){
+manhattan.circular <- function(pVal, pos, chr, annot, filename = NULL, width = 10, height = 10, wb = FALSE){
 
 
 	sign.th	 <- c(log10(max(1.01,pVal[p.adjust(pVal, method = "fdr") < 0.05])),  log10(max(1.01,pVal[pVal < 0.05/length(pVal)]))) 
 	pVal	 <- c(1,pVal); pos <- c(0,pos); chr  <- c(chr[1],chr)
 	dat 	 <- .manhattan(pVal, pos, chr)
+	nChr	 <- length(unique(chr))
+	
 	dat$logP <- -1*dat$logP
 	chr.cent <- sapply(split(dat$pos_cum, chr),median)
 	xlim	 <- c(0, max(dat$pos_cum))
+    
+	if(wb){                                                                     
+        col  <- rep(c("#999999","#000000"),nChr/2)                              
+        if(nChr %% 2 == 1)col <- c(col, "#999999")                              
+        dat$col <- as.character(rep(col, table(chr)))                           
+    }else{                                                                      
+        dat$col <- rep(rep(RColorBrewer::brewer.pal(10,"Set3")[-c(2,8,9)],4)[1:nChr], table(chr)) 
+    }                                                                           
 
-
-gg <- ggplot(dat, aes(x = pos_cum, y = logP, colour = chr)) +                         
-        geom_point(size = .4) +                                                 
+	gg <- ggplot(dat, aes(x = pos_cum, y = logP, group = chr)) +                         
+        geom_point(size = .4, colour = dat$col) +                                                 
         coord_polar() +                                                         
         ylim(min(dat$logP) - 3, 0) +                                            
 		scale_x_continuous(breaks = chr.cent,
@@ -36,9 +45,11 @@ gg <- ggplot(dat, aes(x = pos_cum, y = logP, colour = chr)) +
 			limits  = xlim) + 
 		theme(axis.text.y=element_blank()) +
 		geom_hline(yintercept = sign.th, colour = c("blue","red")) + 
-		theme(legend.position="none") + 
-		scale_fill_brewer(palette="Set1")
-
+		theme(legend.position="none")  
+       
+	   if(wb)                                                                  
+            gg <- gg + scale_color_grey()                                       
+ 
 
 		return(gg)
 }
@@ -67,19 +78,19 @@ manhattan.regular <- function(pVal, pos, chr, annot, filename = NULL, width = 10
 	sign.th	 <- c(-1*log10(max(1.01,pVal[p.adjust(pVal, method = "fdr") < 0.05])),  -1*log10(max(1.01,pVal[pVal < 0.05/length(pVal)]))) 
 	dat 	 <- .manhattan(pVal, pos, chr)
 	chr.cent <- sapply(split(dat$pos_cum, chr),median)
-	xlim	 <- c(0, max(dat$pos_cum))
+	xlim	 <- c(min(dat$pos_cum), max(dat$pos_cum))
 	nChr	 <- length(unique(chr))
 	if(wb){
 		col  <- rep(c("#999999","#000000"),nChr/2)
 		if(nChr %% 2 == 1)col <- c(col, "#999999")
 		dat$col <- as.character(rep(col, table(chr)))	
 	}else{
-		dat$col <- rep(rep(RColorBrewer::brewer.pal(12,"Set3"),3)[1:nChr], table(chr)) 
+		dat$col <- rep(rep(RColorBrewer::brewer.pal(10,"Set3")[-c(2,8,9)],4)[1:nChr], table(chr)) 
 	}
 	
 
 gg <- ggplot(dat, aes(x = pos_cum, y = logP, group = chr)) +                         
-        geom_point(size = .4, aes(colour = col)) +                                                 
+        geom_point(size = .4, colour = dat$col) +                                                 
         ylim(0,max(dat$logP)) +                                            
 		scale_x_continuous(breaks = chr.cent,
         	labels=seq_along(chr.cent), 
@@ -87,6 +98,9 @@ gg <- ggplot(dat, aes(x = pos_cum, y = logP, group = chr)) +
 		geom_hline(yintercept = sign.th, colour = c("blue","red")) + 
 		theme(legend.position="none") 
 		
+		if(wb)
+			gg <- gg + scale_color_grey()
+
 		return(gg)
 }
 
