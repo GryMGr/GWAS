@@ -4,14 +4,14 @@
 #' the effect size, the standard deviation and the p-value for each
 #' CpG. The CpGs are sorted by p-value if sort = TRUE. 
 #'
-#' @param x A result object from the EWAS, of class "MoBa.epigenetic.result"
+#' @param x A result object from the EWAS, of class 
 #' @param file Filename if QQ plot is to be save as a FPD/JPEG. NOTE file extention 
 #' should not be included in the filename.
 #' @param ncol Number of colunms if the QQ plot spans a matrix layout
 #' @param overlay If multiple QQ plots is to be overlayed instead of ploted in seperate windows
 #' @param width Width when saving plot
 #' @param height Height when saving plot
-#' 
+#' @param free If the sub-plot windows should be locked with the same axsis 
 #' @return returns a ggplot2 object, piped to X11 
 #' @export
 #' @import ggplot2
